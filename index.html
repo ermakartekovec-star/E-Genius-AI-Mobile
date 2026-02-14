@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>E‑Genius5 AI • Демо родительского контроля</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: #030615;
+      background-image: radial-gradient(circle at 10% 20%, rgba(0, 200, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 50%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 10px 30px;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: rgba(8, 12, 26, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: 50px;
+      padding: 25px 20px 35px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 40px rgba(0,200,255,0.2);
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 800;
+      text-align: center;
+      background: linear-gradient(135deg, #b2ffff, #ff99cc, #b38eff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aaddff;
+      font-size: 18px;
+      margin-bottom: 25px;
+      border-bottom: 1px solid cyan;
+      padding-bottom: 15px;
+    }
+
+    .demo-badge {
+      display: inline-block;
+      background: #00cc66;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      margin-left: 10px;
+      box-shadow: 0 0 15px #00cc66;
+    }
+
+    /* MAX канал */
+    .max-button {
+      background: linear-gradient(145deg, #002b36, #00101a);
+      border: 2px solid gold;
+      border-radius: 50px;
+      padding: 16px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .max-button a {
+      color: white;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .hot-badge {
+      background: #ff3300;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 14px;
+      box-shadow: 0 0 20px #ff3300;
+      border: 1px solid yellow;
+    }
+
+    /* Family Link секция */
+    .family-section {
+      background: rgba(0, 30, 50, 0.6);
+      border-radius: 40px;
+      padding: 20px;
+      margin: 20px 0;
+      border: 2px solid gold;
+      position: relative;
+    }
+
+    .family-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffd966, #ffb347);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .family-badges {
+      position: absolute;
+      top: -12px;
+      right: 15px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .new-badge {
+      background: #ff0000;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 0 20px #ff0000;
+      border: 1px solid white;
+    }
+
+    .integration-text {
+      color: #c0e5ff;
+      font-size: 16px;
+      margin: 10px 0;
+      padding-left: 15px;
+      border-left: 3px solid cyan;
+    }
+
+    /* Профили детей */
+    .profiles-section {
+      background: rgba(10, 20, 35, 0.7);
+      border-radius: 30px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .profiles-title {
+      font-size: 22px;
+      color: #ffb3ff;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .profile-card {
+      background: linear-gradient(145deg, #0f1d30, #020814);
+      border: 2px solid #2ac7ff;
+      border-radius: 30px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .profile-card:active {
+      transform: scale(0.95);
+      border-color: #ff66b2;
+    }
+
+    .profile-emoji {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .profile-name {
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .profile-age {
+      color: #aaddff;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .profile-active {
+      color: #00cc66;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    /* Категории кнопок */
+    .category {
+      background: rgba(0, 30, 50, 0.4);
+      border-radius: 40px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .category h3 {
+      color: #ffd966;
+      font-size: 22px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid cyan;
+      padding-left: 15px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .demo-btn {
+      background: linear-gradient(145deg, #0f1d30, #020814);
+      border: 2px solid #2ac7ff;
+      border-radius: 40px;
+      padding: 14px 10px;
+      color: white;
+      font-size: 15px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      min-height: 60px;
+    }
+
+    .demo-btn:active {
+      transform: scale(0.95);
+      border-color: #ff66b2;
+      box-shadow: 0 0 30px #ff00c8;
+    }
+
+    .demo-btn.large {
+      grid-column: span 2;
+    }
+
+    .stats-panel {
+      background: #021625;
+      border-radius: 40px;
+      padding: 20px;
+      margin: 25px 0;
+      border: 2px solid cyan;
+    }
+
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      color: white;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    .stats-value {
+      color: cyan;
+      font-weight: 700;
+      font-size: 22px;
+    }
+
+    .reset-btn {
+      background: #ff3300;
+      border: none;
+      border-radius: 40px;
+      padding: 15px 25px;
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      width: 100%;
+      cursor: pointer;
+      border: 2px solid gold;
+      box-shadow: 0 0 30px #ff3300;
+      margin-top: 20px;
+    }
+
+    .reset-btn:active {
+      transform: scale(0.98);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.9);
+      color: #00ffaa;
+      padding: 15px 30px;
+      border-radius: 60px;
+      border: 2px solid cyan;
+      font-size: 18px;
+      z-index: 1000;
+      display: none;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px cyan;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      color: #6db0e0;
+      text-decoration: none;
+      font-size: 18px;
+      border: 1px solid cyan;
+      padding: 12px;
+      border-radius: 40px;
+    }
+
+    @media (max-width: 500px) {
+      h1 { font-size: 36px; }
+      .profile-cards { grid-template-columns: 1fr; }
+      .button-grid { grid-template-columns: 1fr; }
+      .demo-btn.large { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="toast" class="toast">✅ Действие выполнено</div>
+
+  <div class="container">
+    <h1>E‑Genius5 AI</h1>
+    <div class="subtitle">
+      Панель родительского контроля 
+      <span class="demo-badge">DEMO</span>
+    </div>
+
+    <!-- MAX канал -->
+    <div class="max-button">
+      <a href="https://max.ru/join/jhkm1760uzdLjuw3EYrXwRQqy16FQ94rcEKLMTHHu-g" target="_blank">
+        📡 Перейти в канал MAX
+        <span class="hot-badge">HOT</span>
+      </a>
+    </div>
+
+    <!-- Google Family Link интеграция -->
+    <div class="family-section">
+      <div class="family-badges">
+        <span class="new-badge">NEW</span>
+        <span class="hot-badge">HOT</span>
+      </div>
+      <div class="family-title">
+        <span>👪</span> Google Family Link
+      </div>
+      <p style="color: #ffd966; font-size: 18px; font-weight: 600;">⚡ Полная интеграция с E‑Genius5 AI</p>
+      <div class="integration-text">
+        ✓ Единый дашборд для Android и Windows<br>
+        ✓ Синхронизация ограничений между устройствами<br>
+        ✓ Общая аналитика по всем гаджетам<br>
+        ✓ Управление через личный кабинет
+      </div>
+      <p style="color: #9efff0; margin-top: 10px;">✅ Family Link активен и синхронизирован</p>
+    </div>
+
+    <!-- Профили детей (только Платон и Гость) -->
+    <div class="profiles-section">
+      <div class="profiles-title">
+        <span>👶</span> Профили детей
+      </div>
+      <div class="profile-cards">
+        <!-- Платон -->
+        <div class="profile-card" onclick="selectProfile('Платон')">
+          <div class="profile-emoji">👦</div>
+          <div class="profile-name">Платон</div>
+          <div class="profile-age">9 лет</div>
+          <div class="profile-active" id="platonActive">Активен сейчас</div>
+        </div>
+        <!-- Гость -->
+        <div class="profile-card" onclick="selectProfile('Гость')">
+          <div class="profile-emoji">👤</div>
+          <div class="profile-name">Гость</div>
+          <div class="profile-age">без ограничений</div>
+          <div class="profile-active" id="guestActive"> </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Статистика -->
+    <div class="stats-panel">
+      <div class="stats-row">
+        <span>Заблокировано сегодня:</span>
+        <span class="stats-value" id="blockCount">0</span>
+      </div>
+      <div class="stats-row">
+        <span>Активных ограничений:</span>
+        <span class="stats-value" id="restrictionCount">0</span>
+      </div>
+      <div class="stats-row">
+        <span>Экранное время Платона:</span>
+        <span class="stats-value" id="screenTime">0 ч</span>
+      </div>
+    </div>
+
+    <!-- Категория: Блокировка контента -->
+    <div class="category">
+      <h3><span>🚫</span> Блокировка контента</h3>
+      <div class="button-grid">
+        <button class="demo-btn" onclick="action('18+')"><span>🔞</span> 18+</button>
+        <button class="demo-btn" onclick="action('Игры')"><span>🎮</span> Игры</button>
+        <button class="demo-btn" onclick="action('Соцсети')"><span>📱</span> Соцсети</button>
+        <button class="demo-btn" onclick="action('YouTube')"><span>📺</span> YouTube</button>
+        <button class="demo-btn" onclick="action('TikTok')"><span>🎵</span> TikTok</button>
+        <button class="demo-btn large" onclick="action('Все развлечения')"><span>🌐</span> Все развлекательные сайты</button>
+      </div>
+    </div>
+
+    <!-- Категория: Лимиты времени -->
+    <div class="category">
+      <h3><span>⏱️</span> Лимиты времени</h3>
+      <div class="button-grid">
+        <button class="demo-btn" onclick="action('30 минут')"><span>⏰</span> 30 минут</button>
+        <button class="demo-btn" onclick="action('1 час')"><span>⏰</span> 1 час</button>
+        <button class="demo-btn" onclick="action('2 часа')"><span>⏰</span> 2 часа</button>
+        <button class="demo-btn" onclick="action('До утра')"><span>🌙</span> До утра</button>
+        <button class="demo-btn large" onclick="action('Расписание')"><span>📅</span> Расписание на неделю</button>
+      </div>
+    </div>
+
+    <!-- Категория: Режимы -->
+    <div class="category">
+      <h3><span>🌙</span> Готовые режимы</h3>
+      <div class="button-grid">
+        <button class="demo-btn" onclick="action('Учёба')"><span>📚</span> Режим учёбы</button>
+        <button class="demo-btn" onclick="action('Ночь')"><span>😴</span> Ночной режим</button>
+        <button class="demo-btn" onclick="action('Выходной')"><span>🎉</span> Выходной</button>
+        <button class="demo-btn large" onclick="action('Полная блокировка')"><span>⚡</span> Полная блокировка</button>
+      </div>
+    </div>
+
+    <!-- Категория: Отчёты -->
+    <div class="category">
+      <h3><span>📊</span> Отчёты</h3>
+      <div class="button-grid">
+        <button class="demo-btn" onclick="action('Отчёт за день')"><span>📈</span> За день</button>
+        <button class="demo-btn" onclick="action('Отчёт за неделю')"><span>📉</span> За неделю</button>
+        <button class="demo-btn" onclick="action('Топ сайтов')"><span>🔥</span> Топ сайтов</button>
+        <button class="demo-btn large" onclick="action('Отправить отчёт')"><span>📧</span> Отправить на почту</button>
+      </div>
+    </div>
+
+    <!-- Кнопка сброса -->
+    <button class="reset-btn" onclick="resetStats()">
+      <span>🔄</span> Сбросить статистику
+    </button>
+
+    <!-- Ссылка назад -->
+    <a href="#" class="back-link" onclick="alert('Возврат на главную страницу')">← На главную E‑Genius5 AI</a>
+  </div>
+
+  <script>
+    let blockCount = 0;
+    let restrictionCount = 0;
+    let screenTimeHours = 0;
+    let currentProfile = 'Платон';
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = '✅ ' + message;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 1500);
+    }
+
+    function action(item) {
+      blockCount++;
+      restrictionCount++;
+      screenTimeHours = Math.min(screenTimeHours + 1, 24);
+      updateStats();
+      showToast(`Действие выполнено: ${item}`);
+    }
+
+    function selectProfile(profile) {
+      currentProfile = profile;
+      document.getElementById('platonActive').textContent = profile === 'Платон' ? 'Активен сейчас' : '';
+      document.getElementById('guestActive').textContent = profile === 'Гость' ? 'Активен сейчас' : '';
+      showToast(`Выбран профиль: ${profile}`);
+    }
+
+    function updateStats() {
+      document.getElementById('blockCount').textContent = blockCount;
+      document.getElementById('restrictionCount').textContent = restrictionCount;
+      document.getElementById('screenTime').textContent = screenTimeHours + ' ч';
+    }
+
+    function resetStats() {
+      blockCount = 0;
+      restrictionCount = 0;
+      screenTimeHours = 0;
+      updateStats();
+      showToast('Статистика сброшена');
+    }
+
+    // Анимация нажатия
+    document.querySelectorAll('.demo-btn, .profile-card').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+
+    // По умолчанию Платон активен
+    selectProfile('Платон');
+  </script>
+</body>
+</html>
